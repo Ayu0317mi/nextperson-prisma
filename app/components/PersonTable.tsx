@@ -1,5 +1,7 @@
 //'use client'
 
+//'use client'
+
 import React from 'react';
 import { Paper, Table, TableBody, TableCell, TableHead, TableRow, Button } from '@mui/material';
 import { Person } from '../lib/person';
@@ -18,6 +20,7 @@ const PersonTable: React.FC<PersonTableProps> = ({ people, handleOpen, handleDel
           <TableCell>First Name</TableCell>
           <TableCell>Last Name</TableCell>
           <TableCell>Phone</TableCell>
+          <TableCell>Date of Birth</TableCell>
           <TableCell>Actions</TableCell>
         </TableRow>
       </TableHead>
@@ -27,6 +30,7 @@ const PersonTable: React.FC<PersonTableProps> = ({ people, handleOpen, handleDel
             <TableCell>{person.firstname}</TableCell>
             <TableCell>{person.lastname}</TableCell>
             <TableCell>{person.phone}</TableCell>
+            <TableCell>{person.dob ? new Date(person.dob).toLocaleDateString() : 'N/A'}</TableCell>
             <TableCell>
               <Button onClick={() => handleOpen(person)}>Edit</Button>
               <Button onClick={() => handleDelete(person.id)}>Delete</Button>

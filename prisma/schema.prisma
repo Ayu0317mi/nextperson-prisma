@@ -16,7 +16,6 @@ datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
   directUrl = env("POSTGRES_URL_NON_POOLING") // uses a direct connection which is required by Vercel Neon
-
 }
 
 
@@ -27,4 +26,5 @@ model Person {
   firstname String
   lastname  String
   phone     String
+  dob       DateTime
 }
