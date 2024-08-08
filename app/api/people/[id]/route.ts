@@ -34,11 +34,10 @@ export async function PUT(request: Request, context: any) {
   const { id } = context.params;
 
   try {
-
     const body = await request.json();
-    const { firstname, lastname, phone } = body;
+    const { firstname, lastname, phone, dob } = body;
 
-    if (!firstname || !lastname || !phone) {
+    if (!firstname || !lastname || !phone || !dob) {
       return new Response('Missing required fields', {
         status: 400,
       });
@@ -52,15 +51,9 @@ export async function PUT(request: Request, context: any) {
         firstname,
         lastname,
         phone,
-        // You can add other fields to update here
+        dob: new Date(dob), // Ensure dob is handled as a Date object
       },
     });
-
-    if (!updatedPerson) {
-      return new Response('Person not found', {
-        status: 404,
-      });
-    }
 
     return new Response(JSON.stringify(updatedPerson), {
       status: 200,
@@ -69,11 +62,13 @@ export async function PUT(request: Request, context: any) {
       },
     });
   } catch (error) {
-    return new Response('Error', {
+    console.error('Error updating person:', error);
+    return new Response('Error updating person', {
       status: 500,
     });
   }
 }
+
 export async function DELETE(request: Request, context: any) {
   const { id } = context.params;
 
