@@ -1,6 +1,5 @@
 //'use client'
 
-//'use client'
 
 import React from 'react';
 import { Paper, Table, TableBody, TableCell, TableHead, TableRow, Button } from '@mui/material';

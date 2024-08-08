@@ -79,44 +79,64 @@ const HomePage: React.FC = () => {
   };
 
   const handleSubmit = async () => {
-    try {
-      let response;
-      if (editMode && currentPerson) {
-        response = await fetch(`/api/people/${currentPerson.id}`, {
-          method: 'PUT',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify(currentPerson),
-        });
-      } else {
-        response = await fetch('/api/people', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify(currentPerson),
-        });
-      }
+    if (currentPerson) {
+      // Convert Date object to YYYY-MM-DD string
+      const formattedDob = currentPerson.dob ? new Date(currentPerson.dob).toISOString().split('T')[0] : '';
+      const personToSubmit = {
+        ...currentPerson,
+        dob: formattedDob,
+      };
 
-      if (response.ok) {
-        const updatedPerson: Person = await response.json();
-        if (editMode) {
-          setPeople(prevPeople =>
-            prevPeople.map(person => (person.id === updatedPerson.id ? updatedPerson : person))
-          );
+      console.log('Submitting person data:', personToSubmit); // Debugging statement
+
+      try {
+        let response;
+        if (editMode && currentPerson) {
+          console.log('Edit mode is true. Submitting update for person:', currentPerson); // Debugging statement
+          response = await fetch(`/api/people/${currentPerson.id}`, {
+            method: 'PUT',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(personToSubmit),
+          });
         } else {
-          setPeople(prevPeople => [...prevPeople, updatedPerson]);
+          console.log('Edit mode is false. Creating new person:', currentPerson); // Debugging statement
+          response = await fetch('/api/people', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(personToSubmit),
+          });
         }
-        setSnackbarMessage('Record saved successfully!');
-        setSnackbarSeverity('success');
-      } else {
+
+        if (response.ok) {
+          const updatedPerson: Person = await response.json();
+          console.log('Updated person from server:', updatedPerson); // Debugging statement
+
+          // Format the dob to YYYY-MM-DD
+          updatedPerson.dob = updatedPerson.dob ? updatedPerson.dob.split('T')[0] : '';
+          console.log('Updated person with formatted dob:', updatedPerson); // Debugging statement
+
+          if (editMode) {
+            setPeople(prevPeople =>
+              prevPeople.map(person => (person.id === updatedPerson.id ? updatedPerson : person))
+            );
+          } else {
+            setPeople(prevPeople => [...prevPeople, updatedPerson]);
+          }
+          setSnackbarMessage('Record saved successfully!');
+          setSnackbarSeverity('success');
+        } else {
+          console.error('Error response from server:', await response.text()); 
+          setSnackbarMessage('Error saving the record.');
+          setSnackbarSeverity('error');
+        }
+      } catch (error) {
+        console.error('Error saving the person:', error);
         setSnackbarMessage('Error saving the record.');
         setSnackbarSeverity('error');
       }
-    } catch (error) {
-      console.error('Error saving the person:', error);
-      setSnackbarMessage('Error saving the record.');
-      setSnackbarSeverity('error');
+      setSnackbarOpen(true);
+      handleClose();
     }
-    setSnackbarOpen(true);
-    handleClose();
   };
 
   const handleSnackbarClose = () => {
@@ -159,3 +179,4 @@ const HomePage: React.FC = () => {
 };
 
 export default HomePage;
+

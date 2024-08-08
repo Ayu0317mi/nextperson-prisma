@@ -43,7 +43,7 @@ const PersonDialog: React.FC<PersonDialogProps> = ({ open, handleClose, currentP
         label="Date of Birth"
         type="date"
         fullWidth
-        value={currentPerson?.dob || ''}
+        value={currentPerson?.dob ? new Date(currentPerson.dob).toISOString().split('T')[0] : ''}
         onChange={e => setCurrentPerson(prev => ({ ...prev!, dob: e.target.value }))}
         InputLabelProps={{
           shrink: true,

@@ -5,4 +5,5 @@
 
 */
 -- AlterTable
-ALTER TABLE "Person" ADD COLUMN     "dob" TIMESTAMP(3) NOT NULL;
+ALTER TABLE "Person" ADD COLUMN "dob" DATE NOT NULL;
+
