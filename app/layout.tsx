@@ -1,20 +1,32 @@
-// layout.tsx
-import { Inter } from 'next/font/google'
-import './globals.css'
-import { metadata } from './metadata' // import metadata from the new file
+import "./globals.css"
+import { Inter as FontSans } from "next/font/google"
+import AppHeader from "./header"
 
-const inter = Inter({ subsets: ['latin'] })
+import { cn } from "@/lib/utils"
 
-export default function RootLayout({
-  children,
-}: {
-  children: React.ReactNode
-}) {
+type RootLayoutProps = {
+  children: React.ReactNode;
+};
+
+const fontSans = FontSans({
+  subsets: ["latin"],
+  variable: "--font-sans",
+})
+
+export default function RootLayout({ children }: RootLayoutProps) {
   return (
-    <html lang="en">
-      <body>
+    <html lang="en" suppressHydrationWarning>
+      <head />
+      <body
+        className={cn(
+          "min-h-screen bg-background font-sans antialiased",
+          fontSans.variable
+        )}
+      >
+              <AppHeader />
+
         {children}
-       </body>
+      </body>
     </html>
   )
 }

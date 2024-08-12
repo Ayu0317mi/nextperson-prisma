@@ -4,10 +4,10 @@ import React, { useEffect, useState } from 'react';
 import Container from '@mui/material/Container';
 import Button from '@mui/material/Button';
 import Layout from '../app/layout';
-import PersonTable from './components/PersonTable'
+/*import PersonTable from './components/PersonTable'
 import PersonDialog from './components/PersonDialog';
-import SnackbarAlert from './components/SnackbarAlert';
-import { Person } from '../app/lib/person';
+import SnackbarAlert from './components/SnackbarAlert';*/
+import { Person } from '../lib/person';
 
 //these are required for the AppBar
 import AppBar from '@mui/material/AppBar';
@@ -16,7 +16,7 @@ import Typography from '@mui/material/Typography';
 import { Box } from '@mui/material';
 
 //import my custom Footer that will go at the bottom of the page
-import Footer from './components/CFooter';
+/*import Footer from './components/CFooter';*/
 
 const HomePage: React.FC = () => {
   const [people, setPeople] = useState<Person[]>([]);
@@ -158,22 +158,8 @@ const HomePage: React.FC = () => {
 
       <Container component="main" style={{ flex: 1, marginTop: '64px' }}>
         <Button variant="contained" onClick={() => handleOpen(null)}>Add New Person</Button>
-        <PersonTable people={people} handleOpen={handleOpen} handleDelete={handleDelete} />
-        <PersonDialog
-          open={open}
-          handleClose={handleClose}
-          currentPerson={currentPerson}
-          setCurrentPerson={setCurrentPerson}
-          handleSubmit={handleSubmit}
-        />
-        <SnackbarAlert
-          snackbarOpen={snackbarOpen}
-          handleSnackbarClose={handleSnackbarClose}
-          snackbarMessage={snackbarMessage}
-          snackbarSeverity={snackbarSeverity}
-        />
       </Container>
-      <Footer/>
+   
     </Layout>
   );
 };

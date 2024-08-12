@@ -11,7 +11,7 @@ import {
 } from "@/components/ui/table";
 import { Card, CardHeader, CardContent } from "@/components/ui/card";
 import { deletePerson, getPeople } from "./actions";
-import { Person } from '../lib/model';
+import { Person } from '../../lib/model';
 import { PersonForm } from './person-form';
 
 const PersonPage: React.FC = async() => {

@@ -1,8 +1,8 @@
 "use server"
 
-import { Person } from '../lib/model';
+import { Person } from '../../lib/model';
 import { revalidatePath } from 'next/cache';
-import { logger } from '../lib/logger';
+import { logger } from '../../lib/logger';
 
 const validation_path: string = "/people";
 
